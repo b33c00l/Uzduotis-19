@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JSON</title>
+	<meta charset="utf-8">
+	<script   src="https://code.jquery.com/jquery-3.2.1.js"   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="   crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+	
+</head>
+<body>
+	<div><h1>JSON</h1></div>
+	<div class="container">
+		<div class="row">
+			<table class="table">
+				<thead class="thead-inverse">
+					<tr>
+						<th>Pavadinimas</th>
+						<th>Kaina</th>
+						<th>Kiekis</th>
+					</tr>
+				</thead>
+				<tbody id="1">
+				</tbody>
+			</table>
+			<table class="table">
+				<thead class="thead-inverse">
+					<tr>
+						<th>Vardas</th>
+						<th>Pavarde</th>
+						<th>Email</th>
+						<th>Gerimai</th>
+					</tr>
+				</thead>
+				<tbody id="2">
+				</tbody>
+			</table>
+			<table class="table">
+				<thead class="thead-inverse">
+					<tr>
+						<th>Pavadinimas</th>
+						<th>Ingredientai</th>
+						<th>Time to prepare</th>
+						<th>Vegan</th>
+					</tr>
+				</thead>
+				<tbody id="3">
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function(){
+			
+			$.getJSON("http://www.ca-php.lt/json/products.php", function(data){
+				var tr;
+				for (var i = 0; i < data.length; i++) {
+					tr = $('#1');
+					tr.append("<tr>");
+					tr.append("<td>" + data[i]['name'] + "</td>");
+					tr.append("<td>" + data[i]['price'] + "</td>");
+					tr.append("<td>" + data[i]['stock'] + "</td>");
+					tr.append("</tr>");
+				}
+			});
+		});
+
+		$(document).ready(function(){
+
+			$.getJSON("http://www.ca-php.lt/json/emploees.php", function(data){
+				var tr;
+				for (var i = 0; i < data.length; i++) {
+					tr = $('#2');
+					tr.append("<tr>");
+					tr.append("<td>" + data[i]['name'] + "</td>");
+					tr.append("<td>" + data[i]['surname'] + "</td>");
+					tr.append("<td>" + data[i]['email'] + "</td>");
+					tr.append("<td>" + data[i]['drinks'] + "</td>");
+					tr.append("</tr>");
+					
+				}
+			});
+		});
+
+		$(document).ready(function(){
+
+			$.getJSON('http://ca-php.lt/json/recipes.php', function(result) {
+				$.each(result, function(i, field){
+					var row = "<tr>";
+					$.each(field, function(index, val) {
+						if(	typeof val == 'object') {
+							row += "<td>"
+							$.each(val, function(index, val) {
+								row += index +" " + val + ", ";
+							});
+							row += "</td>";
+						} else {
+							row += "<td>" + val + "</td>";
+						}
+					});
+					row += "</tr>";
+					$("#3").append(row);
+				});
+			});
+		});
+
+		/*
+
+
+		$(document).ready(function(){
+
+			$.getJSON("http://ca-php.lt/json/recipes.php", function(data){
+				$.each(data, function(i, field){
+					$('#3').append('<tr><td>'
+						+ field.name 
+						+'</td><td>'
+						+ field.time_to_prepare 
+						+ '</td><td>' 
+						+ field.vegan 
+						+ '</td></tr>');
+					$.each(field.contents, function(j, content) {
+						$('#3').append("<br><td>" + j + " " + content + " " + "</td>" );
+					});
+				});
+				
+			});
+		});
+
+		*/
+		
+
+
+
+
+
+
+
+
+
+	</script>
+</body>
+</html>
